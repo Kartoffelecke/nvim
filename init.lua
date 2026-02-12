@@ -2,6 +2,7 @@ vim.cmd("set expandtab")
 vim.cmd("set tabstop=2")
 vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
+vim.cmd("set number")
 vim.g.mapleader=" "
 -- custom shortcuts
 vim.keymap.set("n", "<leader>n", ":bnext<cr>", { noremap = true, silent = true })
