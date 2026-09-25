@@ -28,7 +28,7 @@ local opts = {}
 local plugins = {
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   { "nvim-telescope/telescope.nvim", dependencies = {"nvim-lua/plenary.nvim"}},
-  {"nvim-treesitter/nvim-treesitter", build= ":TSUpdate"},
+  {"nvim-treesitter/nvim-treesitter", branch = "main", lazy = false, build= ":TSUpdate"},
 {
   "folke/which-key.nvim",
   event = "VeryLazy",
@@ -62,10 +62,12 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' 
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
 
 
-local config = require("nvim-treesitter.configs")
-config.setup({
-  ensure_installed = {"lua", "python"},
-  highlight = { enable = true },
-  indent = { enable = true }
+require("nvim-treesitter").install({ "lua", "python" })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "lua", "python" },
+  callback = function()
+    vim.treesitter.start()
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
 })
 
